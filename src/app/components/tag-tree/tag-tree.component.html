@@ -1,0 +1,7 @@
+<div class="tag-tree">
+	<ul>
+		<li>
+			<mj-tag-node (contentChosen)="contentSelected.emit($event)" [showContent]="!folderOnly" *ngFor="let tag of tags" [tag]="tag"></mj-tag-node>
+		</li>
+	</ul>
+</div>
