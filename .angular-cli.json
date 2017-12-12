@@ -61,7 +61,7 @@
     "component": {
       "inlineStyle": false,
       "inlineTemplate": false,
-      "spec": false
+      "spec": true
     },
     "directive": {
       "spec": false
@@ -76,7 +76,7 @@
       "spec": false
     },
     "service": {
-      "spec": false
+      "spec": true
     }
   }
 }
