@@ -1,0 +1,56 @@
+// Import our custom variables and mixins
+@import '../../../../sass/_variables';
+
+$menu-size: 350px;
+
+#pnlIconav {
+    text-align: center;
+    background: linear-gradient(to bottom, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%);
+
+    .nav li {
+		width: 100%;
+
+		&.active {
+			a { color: $mc-orange; }
+		}
+    }
+
+    a {
+        display: block;
+		font-weight: bold;
+		user-select: none;
+
+        label {
+            display: block;
+        }
+    }
+}
+
+
+#pnlMenu {
+    position: absolute;
+    right: -$menu-size;
+    top: 0;
+    z-index: 1000;
+
+    background: #fff;
+	width: $menu-size;
+	//min-width: 300px;
+
+    .tab-pane {
+		display: none;
+		.tab-container { padding: 1em; }
+
+        &.active {
+            display: block;
+        }
+    }
+}
+
+.modal {
+	pointer-events: none;
+}
+
+.modal-dialog {
+	pointer-events: auto;
+}

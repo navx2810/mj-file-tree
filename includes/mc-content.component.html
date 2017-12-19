@@ -1,0 +1,16 @@
+<div id="pnlContent">
+    <div class="row {{section.sectionClass}}" [ngClass]="{'active': editor.currentSectionIndex == i}" *ngFor="let section of pageData.sections index as i" (click)="selectSection(i)">
+    <div class="row-num">
+            <div>SECTION {{i+1}}:</div>
+            <p>{{getColConfigName(section)}}
+                <span [innerHTML]="getColOptionName(section)"></span>
+            </p>
+        </div>
+        <div class="{{class}}" *ngFor="let class of section.classes[editor.device] index as iHtml">
+            <mc-text-editor [ngModel]="section.html[iHtml]" ngDefaultControl></mc-text-editor> 
+        </div> 
+    </div>
+</div>
+
+
+<!-- data-row-index="{{$parent.$index}}" data-cb-index="{{$index}}" -->

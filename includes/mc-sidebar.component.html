@@ -1,0 +1,206 @@
+<!-- ToDo: All buttons & active state toggle-buttons should the btn-secondary (see Duplicate Button) -->
+<!-- ToDo: Make the btn-primary orange -->
+<!-- ToDo: Make the btn-secondary blue ?? -->
+
+<nav id="pnlIconav" class="iconav">
+	<div class="iconav-slider">
+		<ul class="nav nav-pills iconav-nav">
+			<li [class.active]="activeTab == 1">
+				<a title="SEO Settings" data-toggle="tab" (click)="setActiveTab(1)">
+					<i class="fal fa-chart-line fa-2x"></i>
+					<label class="iconav-nav-label visible-xs-block">SEO</label>
+				</a>
+			</li>
+			<li [class.active]="activeTab == 2">
+				<a title="Page Settings" data-toggle="tab" (click)="setActiveTab(2)">
+					<i class="fal fa-cog fa-2x"></i>
+					<label class="iconav-nav-label visible-xs-block">Settings</label>
+				</a>
+			</li>
+			<li [class.active]="activeTab == 3">
+				<a title="File Content" data-toggle="tab" (click)="setActiveTab(3)">
+					<i class="fal fa-folder-open fa-2x"></i>
+					<label class="iconav-nav-label visible-xs-block">File</label>
+				</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+
+<div id="pnlMenu" class="tab-content">
+	<div role="tabpanel" class="tab-pane active" [ngSwitch]="activeTab">
+		<ng-container *ngSwitchCase="1">
+			<div class="tab-container">
+				<div class="text-center">
+					<div class="hr-divider">
+						<h3 class="hr-divider-content hr-divider-heading">SEO Settings</h3>
+					</div>
+					<div class="panel">
+						<div class="checkbox">
+							<h4>
+								<label>
+									<!-- <input type="checkbox" [(ngModel)]="includeInSitemap" checked> Include in -->
+									<a href="/data/sitemap.xml" target="_blank">Sitemap</a>
+								</label>
+							</h4>
+						</div>
+
+						<hr>
+
+						<!-- ToDo: Style this so it looks better -->
+						<div class="form-group" *ngIf="includeInSitemap">
+							<label>Change Frequency
+								<select class="form-control" [(ngModel)]="changeFrequency">
+									<option value="always">Always</option>
+									<option value="hourly">Hourly</option>
+									<option value="daily">Daily</option>
+									<option value="weekly">Weekly</option>
+									<option value="monthly">Monthly</option>
+									<option value="yearly">Yearly</option>
+									<option value="never">Never</option>
+								</select>
+							</label>
+							<div class="clearfix"></div>
+							<small>How often does this page get updated</small>
+						</div>
+
+						<div class="form-group" [hidden]="!includeInSitemap">
+							<label>Priority
+								<!-- <input id="ex19" type="text" [(ngModel)]="pageData.priority" data-provide="slider" data-slider-ticks="[0.0, 0.5, 1.0]" -->
+								data-slider-ticks-labels='["Low", "Medium", "High"]' data-slider-min="0.0" data-slider-max="1.0" data-slider-step="0.1" data-slider-value="0.5"
+								/>
+							</label>
+							<div class="clearfix"></div>
+							<small>The priority of this page relative to all the other pages on your site</small>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label>Page Title</label>
+						<!-- ToDo:  click cancel will revert the page title along with this {{ siteTitle.replace("{0}", "") }} -->
+						<!-- ToDo:  On focus increase width of form-inline (transistions tada)-->
+						<div class="form-inline" *ngIf="pageData">
+							<button class="btn btn-default btn-sm" (click)="seo.title.changed = !seo.title.changed">
+								<i class="fa" [ngClass]="{'fa-pencil': seo.title.changed, 'fa-times': !seo.title.changed }"></i>
+							</button>
+							<span *ngIf="seo.title.changed">{{seo.title.changed}}</span>
+							<!-- <input elastic [hidden]="!seo.title.changed" type="text" class="form-control" [(ngModel)]="pageData.seoTitle"> -->
+							<p *ngIf="seo.title.changed" class="help-block">
+								<!--ToDo: add info tooltip from page health -->
+								<span [ngClass]="{'text-danger': (60 - seo.title.changed) < 0}">{{60 - seo.title.changed.length}} Characters Remaining</span>
+							</p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label>Page Url</label>
+						<!--ToDo: Add path to-->
+						<div class="form-inline">
+							<button class="btn btn-default btn-sm" (click)="seo.url.changed = !seo.url.changed">
+								<i class="fa" [ngClass]="{'fa-pencil': seo.url.changed, 'fa-times': !seo.url.changed }"></i>
+							</button>
+							<span *ngIf="pageData.seo">{{pageData.seo.url.current}}</span>
+							<!-- <input elastic [hidden]="!seo.url.changed" type="text" class="form-control" [(ngModel)]="pageData.seoUrl"> -->
+						</div>
+
+					</div>
+
+					<div class="form-group">
+						<label>Canonical Url</label>
+						<select class="form-control" [(ngModel)]="canonicalRawValue">
+							<option value="[CurrentPage]">Current Page</option>
+							<option value="PageInThisWebsite">Page in this website</option>
+							<option value="PageOnAnotherWebsite">Page on another website</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label>Meta Keywords</label>
+						<!-- <input type="text" class="form-control" [(ngModel)]="pageData.metaKeywords"> -->
+					</div>
+
+					<div class="form-group">
+						<label>Meta Description</label>
+						<!-- <textarea rows="4" class="form-control" [(ngModel)]="pageData.metaDesc"></textarea> -->
+					</div>
+
+
+
+					<script>
+						$('#ex19').slider({
+							formatter: function (value) {
+								return 'Priority: ' + value;
+							}
+						});
+
+					</script>
+				</div>
+			</div>
+		</ng-container>
+		<ng-container *ngSwitchCase="2">
+			<div class="tab-container">
+				<div class="well text-center">
+					<div class="hr-divider">
+						<h3 class="hr-divider-content hr-divider-heading">Section Settings</h3>
+					</div>
+					<ul class="list-group">
+						<li id="pnlColConfig" class="list-group-item">
+							<input type="text" class="form-control" placeholder="Section CSS Class" />
+						</li>
+						<li class="list-group-item">ToDo: Background image & video w/ Parallax Checkbox</li>
+						<li class="list-group-item">ToDo: Margin & Padding - px or %</li>
+					</ul>
+				</div>
+
+				<div class="well text-center">
+					<div class="hr-divider">
+						<h3 class="hr-divider-content hr-divider-heading">Page Settings</h3>
+					</div>
+
+					Sidebar or No Sidebar
+					<!-- <toggle-btn buttons="[{'name':'Sidebar', 'value':true},{'name':'No Sidebar', 'value':false}]" ng-model="$ctrl.editor.pageData.sidebarEnabled"></toggle-btn> -->
+
+					<hr /> Public or Private Page
+					<!-- <toggle-btn buttons="[{'name':'Public Page', 'value':false},{'name':'Private Page', 'value':true}]" ng-model="$ctrl.editor.pageData.privatePage"></toggle-btn> -->
+					<p [hidden]="!pageData.privatePage">A public page is visible to anyone with a link</p>
+					<p [hidden]="pageData.privatePage">You must log in to in order to view a private page</p>
+
+					<hr />
+
+					<button class="btn btn-secondary" (click)="duplicatePage()">Duplicate This Page</button>
+
+				</div>
+
+				<div class="hr-divider">
+					<h3 class="hr-divider-content hr-divider-heading">To Add to Sidebar</h3>
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item">Template Picker / Saver</li>
+					<li class="list-group-item">Header & Footer, Header Only, Footer Only, No Header or Footer</li>
+					<li class="list-group-item">Row Settings / Margin and Padding</li>
+				</ul>
+			</div>
+		</ng-container>
+	</div>
+</div>
+
+<div class="modal" data-background="" [hidden]="(activeTab !== 3)" style="display: block" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">
+					<i class="fal fa-folder-open"></i> File Content</h5>
+				<button type="button" (click)="activeTab = 0" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<mc-folder-tree [preselectedTag]="contentTag" (tag-selected)="setSelectedTag($event)" folderOnly="true"></mc-folder-tree>
+			</div>
+			<div class="modal-footer">
+				<button type="button" (click)="saveFileContentChanges()" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>

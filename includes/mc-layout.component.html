@@ -1,0 +1,99 @@
+<div id="pnlLayout">
+
+    <div class="insertRow" (click)="addSection()">
+        <hr />
+        <span>
+            <span>+</span> Add Section</span>
+    </div>
+
+    <div class="row-wrapper" *ngFor="let section of pageData.sections index as i">
+        <!-- ToDo: Add Row # preview concept from mc-content over here -->
+        <div class="row-config">
+
+            <div class="animate-switch-container" [ngSwitch]="section.step">
+                <div *ngSwitchCase="1">
+                    <div class="col-selector col-step1 animated well">
+                        <h4 class="text-center">How many columns are in this section on {{editor.device}}?</h4>
+                        <div class="row">
+                            <div class="{{ colOptionWrapClass() }}" *ngFor="let col of section.curSelection" (click)="next(section, col)" [hidden]="!enabledForDeviceType(col)">
+                                <div class="col-option hvr-reveal">
+                                    <h5 class="text-center">{{col.name}}</h5>
+                                    <div class="row">
+                                        <div [class]="class" *ngFor="let class of col.classes[editor.device]">
+                                            <div class="placeholder ml-2 mr-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="{{ colOptionWrapClass() }}">
+                                <div class="col-option text-only">
+                                    <h4 class="text-center">Custom</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngSwitchCase="2">
+                    <div class="col-selector col-step1 animated well">
+                        <button class="btn btn-default btn-slide pull-left btn-sm" (click)="back(section)">
+                            <i class="fal fa-chevron-left"></i>
+                            <span>Back</span>
+                        </button>
+                        
+                        <div class="btn-group float-right">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <i class="fal fa-cog"></i>
+                                <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <button class="dropdown-item" (click)="removeSection(section)"><i class="fal fa-trash"></i> Delete</button>
+                            </div>
+                        </div>
+
+                        <h4 class="text-center">{{section.curSelection.name}}</h4>
+                        <div class="row">
+                            <div class="{{ colOptionWrapClass() }}" *ngFor="let col of section.curSelection.options" (click)="next(section, col)">
+                                <div class="col-option hvr-reveal">
+                                    <h5 class="text-center" [innerHTML]="col.name"></h5>
+                                    <div class="row">
+                                        <div [class]="class" *ngFor="let class of col.classes[editor.device]">
+                                            <div class="placeholder ml-2 mr-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="{{ colOptionWrapClass() }}">
+                                <div class="col-option text-only">
+                                    <h4 class="text-center">Custom</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngSwitchCase="3">
+                    <div class="row step3" (click)="edit(section)">
+                        <div class="col-12 col-step3">
+                            <label>SECTION {{i+1}}</label>
+                            <a class="btn btn-default">click to edit</a>
+
+                            <div class="row">
+                                <div [class]="class" *ngFor="let class of section.curSelection.classes[editor.device]">
+                                    <div class="placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="insertRow" (click)="addSection($index)">
+            <hr />
+            <span>
+                <span>+</span> Add Section</span>
+        </div>
+
+    </div>
+
+</div>
